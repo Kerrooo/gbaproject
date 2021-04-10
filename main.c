@@ -46,10 +46,10 @@ void Handler(void)
         // TODO: Handle timer interrupt here
 	 count++;  
 	 bigcount();   //to increase sec and replay every "second"   
-	 drawvehicle(CAR,0,1,120,&y0,3,3,&number0, &replay0);
-	 drawvehicle(CAR,1,2,130,&y1,4,4,&number1, &replay1);
-	 drawvehicle(CAR,2,2,110,&y2,2,2,&number2, &replay2); // change number from global int. set x, interval, start time here. 
-    }
+	 drawvehicle(CAR,0,1,112,&y0,3,3,&number0, &replay0); //car, id, speed(1 or 2), x, dont change y, interval, start time, number of times, dont care
+	 drawvehicle(CAR2,1,2,126,&y1,4,4,&number1, &replay1);
+	 drawvehicle(CAR3,2,2,98,&y2,2,2,&number2, &replay2); // change number from global int. set x, interval, start time here. 
+    } 
     
     REG_IF = REG_IF; // Update interrupt table, to confirm we have handled this interrupt
     
@@ -58,7 +58,7 @@ void Handler(void)
 
 
 // -----------------------------------------------------------------------------
-// Project Entry Point
+// Project Entry Point    
 // -----------------------------------------------------------------------------
 int main(void)
 {
@@ -73,8 +73,8 @@ int main(void)
     fillSprites();
 
     // Set Handler Function for interrupts and enable selected interrupts
-    REG_IME = 0x0;
-    REG_INT = (int)&Handler;
+	 REG_IME = 0x0;
+	 REG_INT = (int)&Handler;
     REG_IE |= INT_TIMER0;				// TODO: complete this line to choose which timer interrupts to enable
 	 
     // Set Timer Mode (fill that section and replace TMX with selected timer number)
@@ -90,6 +90,8 @@ int main(void)
 
 	return 0;
 }
+
+
 
 
 
