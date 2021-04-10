@@ -47,7 +47,7 @@ void Handler(void)
 	 count++;  
 	 bigcount();   //to increase sec and replay every "second"   
 	 drawvehicle(CAR,0,1,112,&y0,3,3,&number0, &replay0); //car, id, speed(1 or 2), x, dont change y, interval, start time, number of times, dont care
-	 drawvehicle(CAR2,1,2,126,&y1,4,4,&number1, &replay1);
+	 drawvehicle(CAR2,1,2,126,&y1,4,4,&number1, &replay1);// middle dotted line should be at 124 and 100
 	 drawvehicle(CAR3,2,2,98,&y2,2,2,&number2, &replay2); // change number from global int. set x, interval, start time here. 
     } 
     
