@@ -8,7 +8,7 @@ int count = 0; // small counts to count seconds and refresh rate of y
 int sec = 0;  // how many seconds passed
 int replay0,replay1,replay2 = 0;  // timer for draw car to compare with interval, every sprite needs their own replay
 int y0,y1,y2 = 0;    // y axis for car
-int number0 = 3;
+int number0 = 3,number1 =100, number2 = 100; 
 void bigcount (void) {  //to increase sec and replay every second: so count will not overflow
 	if (count == 52 ) {
 		sec++;
@@ -19,43 +19,23 @@ void bigcount (void) {  //to increase sec and replay every second: so count will
 	}
 } 
 
-void drawcar(int x, int *y, int interval, int starttime, int *nooftimes, int *replay) {  //draws the car travelling down every "interval"
+void drawvehicle(int veh, int id, int speed, int x, int *y, int interval, int starttime, int *nooftimes, int *replay) {  //draws the car travelling down every "interval"
 	if ((*replay > interval) && (*nooftimes > 0) && (starttime <= sec)) { 
-		drawSprite(CAR, 0, x, *y); // y = 0 for first count 
- 		(*y)++;     //increase y for the next count
+		drawSprite(veh, id, x, *y); // y = 0 for first count 
+ 		if (speed==1){ 
+	    (*y)++; //increase y for the next count
+		 }
+		else if (speed == 2) {
+		(*y) = (*y +2);
+		}     
 		if (*y == 160) {   //once reach the bottom of screen, hide car and refresh y and replay
-		drawSprite( CAR, 0, 240, 160);	
+		drawSprite( veh, id, 240, 160);	
 		*y = 0;
 		*replay = 0;
 		(*nooftimes)--;
 		}
 	}
 }
-
-void drawcar1(void) {  //draws the car travelling down every "interval"
-	int interval = 4;
-	if (replay1 > interval ) { 
-		drawSprite( CAR, 1, 130, y1); // y = 0 for first count 
- 		y1++;     //increase y for the next count, increase speed here
-		if (y1 == 160) {   //once reach the bottom of screen, hide car and refresh y and replay
-		drawSprite( CAR, 1, 240, 160);	
-		y1 = 0;
-		replay1 = 0;
-		}
-	}
-}
-/*void drawcar2(void) {  //draws the car travelling down every "interval"
-	int interval = 3;
-	if (replay2 > interval && sec > 7 ) { 
-		drawSprite( CAR, 2, 110, y2); // y = 0 for first count 
- 		y2++;     //increase y for the next count
-		if (y2 == 160) {   //once reach the bottom of screen, hide car and refresh y and replay
-		drawSprite( CAR, 2, 240, 160);	
-		y2 = 0;
-		replay2 = 0;
-		}
-	}
-}*/
 
 void Handler(void)
 {
@@ -66,10 +46,9 @@ void Handler(void)
         // TODO: Handle timer interrupt here
 	 count++;  
 	 bigcount();   //to increase sec and replay every "second"   
-	 drawcar(120,&y0,3,3,&number0, &replay0); // change number from global int. set x, interval, start time here.
-	 drawcar1(); 
-	 //drawcar(110,&y1,2,2,2,&replay1);
-	 //drawcar(130,&y2,5,4,5,&replay2);    // draw the car every count if conditions are met
+	 drawvehicle(CAR,0,1,120,&y0,3,3,&number0, &replay0);
+	 drawvehicle(CAR,1,2,130,&y1,4,4,&number1, &replay1);
+	 drawvehicle(CAR,2,2,110,&y2,2,2,&number2, &replay2); // change number from global int. set x, interval, start time here. 
     }
     
     REG_IF = REG_IF; // Update interrupt table, to confirm we have handled this interrupt
@@ -94,8 +73,8 @@ int main(void)
     fillSprites();
 
     // Set Handler Function for interrupts and enable selected interrupts
-	 REG_IME = 0x0;
-	 REG_INT = (int)&Handler;
+    REG_IME = 0x0;
+    REG_INT = (int)&Handler;
     REG_IE |= INT_TIMER0;				// TODO: complete this line to choose which timer interrupts to enable
 	 
     // Set Timer Mode (fill that section and replace TMX with selected timer number)
@@ -111,5 +90,8 @@ int main(void)
 
 	return 0;
 }
+
+
+
 
 
