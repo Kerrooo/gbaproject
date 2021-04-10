@@ -73,7 +73,7 @@ void drawSprite(int numb, int N, int x, int y)
 	// Same as CA2, make specific sprite (based on its name/numb) appear on screen, as slide number N (each sprite needs a different, arbitrary, N >= 0)
     *(unsigned short *)(0x7000000 + 8*N) = y | 0x2000;
     *(unsigned short *)(0x7000002 + 8*N) = x | 0x4000;
-    *(unsigned short *)(0x7000004 + 8*N) = numb*2;
+    *(unsigned short *)(0x7000004 + 8*N) = numb*8;
 }
 
 
