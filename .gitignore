@@ -1,0 +1,6 @@
+@PROGNAME@.elf
+@PROGNAME@.gba
+crt0.o
+main.i
+main.o
+main.s
