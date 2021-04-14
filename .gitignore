@@ -1,0 +1,4 @@
+main.i
+main.o
+main.s
+crt0.o
