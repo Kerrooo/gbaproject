@@ -1,4 +1,10 @@
-main.i
-main.o
-main.s
+@PROGNAME@.elf
+@PROGNAME@.gba
+@project@.ico
+@project@.txt
+@project@.vhw
+@project@.vhw.bak
 crt0.o
+desktop.ini
+main.o
+makefile
