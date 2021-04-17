@@ -63,7 +63,7 @@ void fillPalette(void)
 
 void fillSprites(void)
 {
-    int     i;
+    int i;
 
 	// Load all sprites in GBA memory
     for (i = 0; i < 128*16*16; i++) {
@@ -72,7 +72,7 @@ void fillSprites(void)
 
 	// draw all sprites on screen, but all of them outside of the screen (starting at position (240,160) the bottom right corner of the GBA screen)
     for(i = 0; i < 128; i++) {
-        drawSprite(0, i, 240,160);
+        drawSprite(0, i, 240, 160);
     }
 }
 
@@ -84,5 +84,6 @@ void drawSprite(int numb, int No, int x, int y)
     *(unsigned short *)(0x7000002 + 8*No) = x | 0x4000;
     *(unsigned short *)(0x7000004 + 8*No) = numb*8;
 }
+
 
 
