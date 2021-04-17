@@ -3,6 +3,13 @@
 #define INPUT                      (KEY_MASK & (~REG_KEYS))
 extern int state;
 extern int xuser;
+// Updated upstream
+extern int left;
+extern int right;
+extern int select;
+extern int blinker; //delay for buttons in main menu and credits
+
+// Stashed changes
 void checkbutton(void)
 {
 	// Gift function to show you how a function that can be called upon button interrupt to detect which button was pressed and run a specific function for each button could look like. You would have to define each buttonA/buttonB/... function yourself.
@@ -10,7 +17,17 @@ void checkbutton(void)
     
     if ((buttons & KEY_A) == KEY_A)
     {
-       
+     	if (state == 0) {
+             if (select == 0)   {
+                 state = 1;
+             }
+             else if (select == 1)   {
+                 state = 5;
+             }
+         }
+        else if (state == 5) {
+            state = 0;
+        }
     }
     if ((buttons & KEY_B) == KEY_B)
     {
@@ -23,8 +40,18 @@ void checkbutton(void)
     if ((buttons & KEY_START) == KEY_START)
     {
      	if (state == 0) {
-			state = 1;
-      }
+             if (select == 0)   {
+                 state = 1;
+             }
+             else if (select == 1 && blinker > 1)   {
+                 state = 5;
+                 blinker = 0;
+             }
+         }
+        else if (state == 5 && blinker > 1) {
+            state = 0;
+            blinker = 0;
+        }
     }
     if ((buttons & KEY_RIGHT) == KEY_RIGHT)
     {
@@ -40,11 +67,19 @@ void checkbutton(void)
     }
     if ((buttons & KEY_UP) == KEY_UP)
     {
-       
+       if(state == 0)   {
+           if(select == 1)  {
+               select = 0;
+           }
+       }
     }
     if ((buttons & KEY_DOWN) == KEY_DOWN)
     {
-        
+       if(state == 0)   {
+           if(select == 0)  {
+               select = 1;
+           }
+       }
     }
 }
 

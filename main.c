@@ -4,7 +4,7 @@
 #include "gba.h"
 #include "mygbalib.h"
 
-int state = 0;// game state: 0 for menu, 1 for stage 1, 2 for stage 2, 3 for lose, 4 for win.
+int state = 0;// game state: 0 for menu, 1 for stage 1, 2 for stage 2, 3 for lose, 4 for win, 5 for credits.
 int count = 0; // small counts to count seconds and refresh rate of y 
 int sec = 0;  // how many seconds passed
 int sec2 = 0;
@@ -20,6 +20,7 @@ int xuser = 120;	// x-axis for user's car
 int middle = 112, left = 96, right = 128;	// x-axis for drawvehicle
 int road_y,beach_y,ocean_y,palm_y1,palm_y2,finish_y = 0; //pointer to store the moving y-coordinates of the background for state 1
 int road_y2,bridgeleft_y,bridgeright_y,lavaleft_y,lavaright_y,finish_y2 = 0;
+int select = 0, blinker = 0; // menu selection and visual cue
 
 void resettimer(void) {    // put in bigcount, checks in every sate // also sets initial state of cars need to change both here and top
 	if (state != 1) {
@@ -109,7 +110,13 @@ void bigcount (void) {  //to increase sec and replay every second: so count will
 	if (count > 53 && state != 0) {
 		count =0;
 	}
-	if (state == 1) {
+	else if (state == 0 || state == 5) {
+		if (count == 25 )	{
+			blinker ++;
+			count = 0;
+		}
+	}	
+	else if (state == 1) {
 		replay0++;
 		replay1++;
 		replay2++;
@@ -120,12 +127,13 @@ void bigcount (void) {  //to increase sec and replay every second: so count will
 		replay7++;
 		replay8++;
 		replay9++;
-		replay10++;		
+		replay10++;	
 		if (count == 53 ) {
 			sec++;
 			count =0;		
 		}
-	} else if (state == 2) {
+	}	
+	else if (state == 2) {
 		replay20++;
 		replay21++;
 		replay22++;
@@ -141,12 +149,14 @@ void bigcount (void) {  //to increase sec and replay every second: so count will
 			sec2++;
 			count =0;
 		}
-	} else if (state == 3) {
+	} 
+	else if (state == 3) {
 		if (count == 53 ) {
 			sec3++;
 			count =0;
 		}
-	} else if (state == 4) {
+	} 
+	else if (state == 4) {
 		if (count == 53 ) {
 			sec4++;
 			count =0;
@@ -255,34 +265,74 @@ void clearSprite(void) {
        drawSprite(0, i, 240,160);
 	}
 }
+
+void drawMenu(void)	{
+		drawSprite( XPLODE, 113, 70, 30);
+		drawSprite( V, 114, 88, 36);
+		drawSprite( R, 115, 104, 36);
+		drawSprite( O, 116, 120, 36);
+		drawSprite( O, 117, 136, 36);
+		drawSprite( M, 118, 152, 36);
+		
+		drawSprite( S, 100, 88, 96);
+		drawSprite( T, 101, 104, 96);
+		drawSprite( A, 102, 120, 96);
+		drawSprite( R, 103, 136, 96);
+		drawSprite( T, 104, 152, 96);
+
+		drawSprite( C, 105, 72, 130);
+		drawSprite( R, 106, 88, 130);
+		drawSprite( E, 107, 104, 130);
+		drawSprite( D, 108, 120, 130);
+		drawSprite( I, 109, 136, 130);
+		drawSprite( T, 110, 144, 130);
+		drawSprite( S, 111, 162, 130);
+	if(select == 0)	{
+		drawSprite( ARROW, 112, 50, 96);
+	}
+	else if(select == 1)	{
+		drawSprite( ARROW, 112, 50, 130);
+	}	
+}
+
+void drawCredits(void)	{
+	drawSprite( C, 105, 72, 24);
+	drawSprite( R, 106, 88, 24);
+	drawSprite( E, 107, 104, 24);
+	drawSprite( D, 108, 120, 24);
+	drawSprite( I, 109, 136, 24);
+	drawSprite( T, 110, 144, 24);
+	drawSprite( S, 111, 162, 24);
+
+	drawSprite( K, 120, 80, 72);
+	drawSprite( E, 121, 96, 72);	
+	drawSprite( R, 122, 112, 72);	
+	drawSprite( V, 123, 128, 72);	
+	drawSprite( I, 124, 144, 72);	
+	drawSprite( N, 125, 152, 72);
+
+	drawSprite( K, 126, 88, 96);
+	drawSprite( E, 127, 104, 96);	
+	drawSprite( N, 128, 120, 96);	
+	drawSprite( J, 113, 136, 96);	
+	drawSprite( I, 114, 152, 96);	
+
+	drawSprite( R, 115, 104, 120);	
+	drawSprite( O, 116, 120, 120);	
+	drawSprite( N, 117, 136, 120);	
+
+	drawSprite( ARROW, 112, 220, 140);
+
+	if(blinker%2)	{
+		drawSprite( ARROW, 112, 240, 160);
+	}
+}
+
 void game(void) {
 	bigcount();
 	if (state == 0) { 
-		if (count == 52) {
-			drawSprite( P, 100, 32, 72);
-			drawSprite( R, 101, 48, 72);
-			drawSprite( E, 102, 64, 72);
-			drawSprite( S, 103, 80, 72);
-			drawSprite( S, 104, 96, 72);
-			drawSprite( S, 105, 128, 72);
-			drawSprite( T, 106, 144, 72);
-			drawSprite( A, 107, 160, 72);
-			drawSprite( R, 108, 176, 72);
-			drawSprite( T, 109, 192, 72);
-		}
-		if (count == 104) {
-			drawSprite( S, 100, 240, 160);
-			drawSprite( T, 101, 240, 160);
-			drawSprite( A, 102, 240, 160);
-			drawSprite( R, 103, 240, 160);
-			drawSprite( T, 104, 240, 160);
-			drawSprite( P, 105, 240, 160);
-			drawSprite( R, 106, 240, 160);
-			drawSprite( E, 107, 240, 160);
-			drawSprite( S, 108, 240, 160);
-			drawSprite( S, 109, 240, 160);
-			count =0;
-		}
+		clearSprite();
+		drawMenu();
 	}
 
 	else if(state == 1) { 
@@ -456,7 +506,10 @@ void game(void) {
 			state = 0;
 		}
 	}
-	 	
+	else if (state == 5)	{
+		clearSprite();
+		drawCredits();
+	} 	
 } 
 
 void Handler(void)
