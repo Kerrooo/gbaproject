@@ -10,12 +10,12 @@ int sec = 0;  // how many seconds passed
 int sec2 = 0;
 int sec3 = 0;
 int sec4 = 0;
-int replay0,replay1,replay2,replay3,replay4,replay5,replay6 = 0;  // timer for draw car to compare with interval, every sprite needs their own replay
-int replay10,replay11,replay12,replay13,replay14,replay15,replay16 = 0;
-int y0,y1,y2,y3,y4,y5,y6 = 0;    // y axis for car
-int y10,y11,y12,y13,y14,y15,y16 = 0;
-int number0 = 3,number1 =3, number2 = 3, number3 = 3,number4 = 4,number5 = 4,number6 = 3;
-int number10 = 3,number11 =3, number12 = 3, number13 = 3,number14 = 4,number15 = 4,number16 = 3;  
+int replay0,replay1,replay2,replay3,replay4,replay5,replay6,replay7,replay8,replay9,replay10 = 0;  // timer for draw car to compare with interval, every sprite needs their own replay
+int replay20,replay21,replay22,replay23,replay24,replay25,replay26,replay27,replay28,replay29,replay30 = 0;
+int y0,y1,y2,y3,y4,y5,y6,y7,y8,y9,y10 = 0;    // y axis for car
+int y20,y21,y22,y23,y24,y25,y26,y27,y28,y29,y30 = 0;
+int number0 = 3,number1 =6, number2 = 4, number3 = 4,number4 = 5,number5 = 5,number6 = 4,number7 = 4,number8 = 5,number9 = 4,number10 = 4;
+int number20 = 3,number21 =3, number22 = 3, number23 = 3,number24 = 4,number25 = 4,number26 = 3,number27 = 3,number28 = 3,number29 = 3,number30 = 3;  
 int xuser = 120;	// x-axis for user's car
 int middle = 112, left = 96, right = 128;	// x-axis for drawvehicle
 int road_y,beach_y,ocean_y,palm_y1,palm_y2,finish_y = 0; //pointer to store the moving y-coordinates of the background for state 1
@@ -31,6 +31,10 @@ void resettimer(void) {    // put in bigcount, checks in every sate // also sets
 		replay4 = 0;
 		replay5 = 0;
 		replay6 = 0;
+		replay7 = 0;
+		replay8 = 0;
+		replay9 = 0;
+		replay10 = 0;
 		y0 = 0;
 		y1 = 0;
 		y2 = 0;
@@ -38,27 +42,64 @@ void resettimer(void) {    // put in bigcount, checks in every sate // also sets
 		y4 = 0;
 		y5 = 0;
 		y6 = 0;
-		number0 = 3,number1 =3, number2 = 3, number3 = 3,number4 = 4,number5 = 4,number6 = 3; 
-	}	else if (state != 2) {
-		sec2 = 0;
-		replay10 = 0;
-		replay11 = 0;
-		replay12 = 0;
-		replay13 = 0;
-		replay14 = 0;
-		replay15 = 0;
-		replay16 = 0;
+		y7 = 0;
+		y8 = 0;
+		y9 = 0;
 		y10 = 0;
-		y11 = 0;
-		y12 = 0;
-		y13 = 0;
-		y14 = 0;
-		y15 = 0;
-		y16 = 0;
-		number10 = 3,number11 =3, number12 = 3, number13 = 3,number14 = 4,number15 = 4,number16 = 3; 
-	} else if (state != 3) {
+		number0 = 3;
+		number1 =6;
+		number2 = 4;
+		number3 = 4;
+		number4 = 5;
+		number5 = 5;
+		number6 = 4;
+		number7 = 4;
+		number8 = 5;
+		number9 = 4;
+		number10 = 4;
+		finish_y = 0; 
+	}
+	if (state != 2) {
+		sec2 = 0;
+		replay20 = 0;
+		replay21 = 0;
+		replay22 = 0;
+		replay23 = 0;
+		replay24 = 0;
+		replay25 = 0;
+		replay26 = 0;
+		replay27 = 0;
+		replay28 = 0;
+		replay29 = 0;
+		replay30 = 0;
+		y20 = 0;
+		y21 = 0;
+		y22 = 0;
+		y23 = 0;
+		y24 = 0;
+		y25 = 0;
+		y26 = 0;
+		y27 = 0;
+		y28 = 0;
+		y29 = 0;
+		y30 = 0;
+		number20 = 3;
+		number21 = 3;
+		number22 = 3; 
+		number23 = 3;
+		number24 = 4;
+		number25 = 4;
+		number26 = 3;
+		number27 = 3;
+		number28 = 3;
+		number29 = 3;
+		number30 = 3;
+		finish_y2 = 0; 
+	}
+	if (state != 3) {
 		sec3 = 0;
-	} else if (state != 4) {
+	}
+	if (state != 4) {
 		sec4 = 0;
 	}
 }			
@@ -67,28 +108,37 @@ void bigcount (void) {  //to increase sec and replay every second: so count will
 	resettimer();
 	if (count > 53 && state != 0) {
 		count =0;
-	} else if (state == 1) {		
+	}
+	if (state == 1) {
+		replay0++;
+		replay1++;
+		replay2++;
+		replay3++;
+		replay4++;
+		replay5++;
+		replay6++;
+		replay7++;
+		replay8++;
+		replay9++;
+		replay10++;		
 		if (count == 53 ) {
 			sec++;
-			replay0++;
-			replay1++;
-			replay2++;
-			replay3++;
-			replay4++;
-			replay5++;
-			replay6++;
 			count =0;		
 		}
 	} else if (state == 2) {
+		replay20++;
+		replay21++;
+		replay22++;
+		replay23++;
+		replay24++;
+		replay25++;
+		replay26++;
+		replay27++;
+		replay28++;
+		replay29++;
+		replay30++;
 		if (count == 53 ) {
 			sec2++;
-			replay10++;
-			replay11++;
-			replay12++;
-			replay13++;
-			replay14++;
-			replay15++;
-			replay16++;
 			count =0;
 		}
 	} else if (state == 3) {
@@ -105,7 +155,7 @@ void bigcount (void) {  //to increase sec and replay every second: so count will
 } 
 
 void drawvehicle(int veh, int id, int speed, int x, int *y, int interval, int starttime, int *nooftimes, int *replay) {  //draws the car travelling down every "interval"
-	if (((*replay >= interval) && (*nooftimes > 0)) && ((starttime <= sec) || (starttime <= sec2))) { 	
+	if (((*replay >= interval*53) && (*nooftimes > 0)) && ((starttime <= sec) || (starttime <= sec2))) { 	
  		drawSprite(veh, id, x, *y); // y = 0 for first count 
 		 if (speed==1){ //3.01 sec to clear screen
 	   	(*y)++; //increase y for the next count
@@ -120,7 +170,12 @@ void drawvehicle(int veh, int id, int speed, int x, int *y, int interval, int st
 		drawSprite( veh, id, 240, 160);	
 		*y = 0;	
 		(*nooftimes)--;
-		*replay = 0;
+		if (*replay > starttime*53) {
+			*replay = *replay - starttime*53;
+		}
+		else {
+			*replay = *replay - interval*53;
+		}
 		}
 	}
 }
@@ -203,14 +258,6 @@ void clearSprite(void) {
 void game(void) {
 	bigcount();
 	if (state == 0) { 
-		drawSprite(CAR0,0,240,160);
-		drawSprite(CAR1,1,240,160);
-		drawSprite(CAR2,2,240,160);
-		drawSprite(CAR2,3,240,160);
-		drawSprite(CAR0,4,240,160);
-		drawSprite(CAR0,5,240,160);
-		drawSprite(CAR1,6,240,160);
-		//drawSprite(user,9,240,160);
 		if (count == 52) {
 			drawSprite( P, 100, 32, 72);
 			drawSprite( R, 101, 48, 72);
@@ -263,11 +310,16 @@ void game(void) {
 		drawSprite(user, 0, xuser, 140); //User's car
 		drawvehicle(CAR0,1,1,middle,&y0,3,3,&number0, &replay0); //car, id, speed(1 or 2), x, dont change y, interval, start time, number of times, dont care
 	  	drawvehicle(CAR1,2,1,right,&y1,4,4,&number1, &replay1); // middle dotted line should be at 124 and 100
-	   drawvehicle(CAR2,3,1,left,&y2,3,5,&number2, &replay2); // change number from global int. set x, interval, start time here.
+	    drawvehicle(CAR2,3,1,left,&y2,3,5,&number2, &replay2); // change number from global int. set x, interval, start time here.
 		drawvehicle(CAR2,4,1,middle,&y3,3,7,&number3, &replay3);
-		drawvehicle(CAR0,5,1,right,&y4,5,11,&number4, &replay4);
+		drawvehicle(CAR0,5,1,right,&y4,4,10,&number4, &replay4);
 		drawvehicle(CAR0,6,1,left,&y5,4,10,&number5, &replay5);
 		drawvehicle(CAR1,7,1,middle,&y6,3,17,&number6, &replay6);
+		drawvehicle(CAR2,8,2,80,&y7,3,6,&number7, &replay7); 
+		drawvehicle(CAR0,9,1,144,&y8,5,5,&number8, &replay8);
+		drawvehicle(CAR1,10,1,80,&y9,4,16,&number9, &replay9);
+		drawvehicle(CAR2,11,1,144,&y10,3,8,&number10, &replay10);
+		
 		beach_y = drawYMoving(BEACH, beach_y, 64, 80); //Moving background
 		ocean_y = drawYMoving(OCEAN, ocean_y, 48, 91); //Moving background
 		palm_y1 = drawYMoving(PALM1, palm_y1, 160, 102); //Moving background
@@ -276,16 +328,16 @@ void game(void) {
 		drawRoad (ROAD1, ROAD2, &road_y, 80, 5, 30); //road background that moves downwards
 
 
-		if((y0==140&&((xuser-8<=middle)&&(middle<=xuser+8)))||(y1==140&&((xuser-8<=right)&&(right<=xuser+8)))||(y2==140&&((xuser-8<=left)&&(left<=xuser+8)))||(y3==140&&((xuser-8<=middle)&&(middle<=xuser+8)))||(y4==140&&((xuser-8<=right)&&(right<=xuser+8)))||(y5==140&&((xuser-8<=left)&&(left<=xuser+8)))||(y6==140&&((xuser-8<=middle)&&(middle<=xuser+8)))) {	// At y=140, check if any point at the front of the car intersects other cars.
+		if((y0==140&&((xuser-8<=middle)&&(middle<=xuser+8)))||(y1==140&&((xuser-8<=right)&&(right<=xuser+8)))||(y2==140&&((xuser-8<=left)&&(left<=xuser+8)))||(y3==140&&((xuser-8<=middle)&&(middle<=xuser+8)))||(y4==140&&((xuser-8<=right)&&(right<=xuser+8)))||(y5==140&&((xuser-8<=left)&&(left<=xuser+8)))||(y6==140&&((xuser-8<=middle)&&(middle<=xuser+8)))||(y7==140&&((xuser-8<=80)&&(80<=xuser+8)))||(y8==140&&((xuser-8<=144)&&(144<=xuser+8)))||(y9==140&&((xuser-8<=80)&&(80<=xuser+8)))||(y10==140&&((xuser-8<=144)&&(144<=xuser+8)))) {	// At y=140, check if any point at the front of the car intersects other cars.
 			count = 0;
 			state = 3;
 			}
-		if (sec > 8) {
-			finish_y = drawXLineMoving(FINISH, finish_y, 80, 25); //draws the finish line
+		if (sec > 29) {
+			finish_y = drawXLineMoving(FINISH, finish_y, 80, 1); //draws the finish line
 		}
 		
 		
-		if (sec == 11) {
+		if (sec == 32) {
 		drawSprite( S, 12, 80, 72);
 		drawSprite( T, 13, 96, 72);
 		drawSprite( A, 14, 112, 72);
@@ -301,7 +353,7 @@ void game(void) {
 		drawSprite( R, 24, 144, 108);
 		
 		}
-		if (sec == 13) {   //win condition
+		if (sec == 35) {   //win condition
 			clearSprite();	  
 			count = 0;
 			state = 2;
@@ -330,13 +382,17 @@ void game(void) {
    	}
 		
 		drawSprite(user, 0, xuser, 140); //User's car
-		drawvehicle(CAR0,1,1,middle,&y10,3,3,&number10, &replay10); //car, id, speed(1 or 2), x, dont change y, interval, start time, number of times, dont care
-	  	drawvehicle(CAR1,2,1,right,&y11,4,4,&number11, &replay11); // middle dotted line should be at 124 and 100
-	   drawvehicle(CAR2,3,1,left,&y12,3,5,&number12, &replay12); // change number from global int. set x, interval, start time here.
-		drawvehicle(CAR2,4,1,middle,&y13,3,7,&number13, &replay13);
-		drawvehicle(CAR0,5,1,right,&y14,5,11,&number14, &replay14);
-		drawvehicle(CAR0,6,1,left,&y15,4,10,&number15, &replay15);
-		drawvehicle(CAR1,7,1,middle,&y16,3,17,&number16, &replay16);
+		drawvehicle(CAR0,1,1,middle,&y20,3,3,&number20, &replay20); //car, id, speed(1 or 2), x, dont change y, interval, start time, number of times, dont care
+	  	drawvehicle(CAR1,2,1,right,&y21,4,4,&number21, &replay21); // middle dotted line should be at 124 and 100
+	    drawvehicle(CAR2,3,1,left,&y22,3,5,&number22, &replay22); // change number from global int. set x, interval, start time here.
+		drawvehicle(CAR2,4,1,middle,&y23,3,7,&number23, &replay23);
+		drawvehicle(CAR0,5,1,right,&y24,5,11,&number24, &replay24);
+		drawvehicle(CAR0,6,1,left,&y25,4,10,&number25, &replay25);
+		drawvehicle(CAR1,7,1,middle,&y26,3,17,&number26, &replay26);
+		drawvehicle(CAR0,8,1,80,&y27,3,17,&number27, &replay27);
+		drawvehicle(CAR1,9,1,144,&y28,3,17,&number28, &replay28);
+		drawvehicle(CAR2,10,1,80,&y29,3,17,&number29, &replay29);
+		drawvehicle(CAR2,10,1,144,&y30,3,17,&number30, &replay30);
 		
 		drawRoad(ROAD1, ROAD2, &road_y2, 80, 5, 30);
 		bridgeleft_y = drawYMoving(BRIDGELEFT, bridgeleft_y, 64, 80);
@@ -345,7 +401,7 @@ void game(void) {
 		lavaright_y =drawYMoving(LAVARIGHT, lavaright_y, 176, 113);
 
 		if (sec2 > 8) {
-			finish_y2 = drawXLineMoving(FINISH, finish_y, 80, 25); //draws the finish line
+			finish_y2 = drawXLineMoving(FINISH, finish_y2, 80, 1); //draws the finish line
 		}		
 
 		if (sec2 == 11) {
@@ -369,15 +425,15 @@ void game(void) {
 		}		
 	}
 	else if (state == 3 ) {
-		drawSprite(XPLODE,124, xuser, 140);
+		drawSprite(XPLODE,0, xuser, 140);
 		if (sec3 == 2) {
-			drawSprite( Y, 100, 80, 72);			
-			drawSprite( O, 102, 112, 72);
-			drawSprite( U, 103, 128, 72);
-			drawSprite( L, 104, 80, 72);
-			drawSprite( O, 105, 96, 72);
-			drawSprite( S, 106, 112, 72);
-			drawSprite( E, 107, 128, 72);
+			drawSprite( Y, 2, 96, 72);			
+			drawSprite( O, 3, 112, 72);
+			drawSprite( U, 4, 128, 72);
+			drawSprite( L, 5, 88, 88);
+			drawSprite( O, 6, 104, 88);
+			drawSprite( S, 7, 120, 88);
+			drawSprite( E, 8, 136, 88);
 		}
 		if (sec3 == 5) {
 			sec3 = 0;
@@ -391,8 +447,8 @@ void game(void) {
 		drawSprite( O, 103, 80, 72);
 		drawSprite( U, 104, 96, 72);
 		drawSprite( W, 105, 128, 72);	
-		drawSprite( I, 106, 144, 72);
-		drawSprite( N, 107, 160, 72);
+		drawSprite( I, 106, 148, 72);
+		drawSprite( N, 107, 156, 72);
 
 		if (sec4 == 4) {
 			sec4 = 0;

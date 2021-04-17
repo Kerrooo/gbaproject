@@ -3,8 +3,6 @@
 #define INPUT                      (KEY_MASK & (~REG_KEYS))
 extern int state;
 extern int xuser;
-extern int left;
-extern int right;
 void checkbutton(void)
 {
 	// Gift function to show you how a function that can be called upon button interrupt to detect which button was pressed and run a specific function for each button could look like. You would have to define each buttonA/buttonB/... function yourself.
@@ -30,13 +28,13 @@ void checkbutton(void)
     }
     if ((buttons & KEY_RIGHT) == KEY_RIGHT)
     {
-      		if (xuser < right) {
+      		if (xuser < 144) {
 			xuser++;
 		}
     }
     if ((buttons & KEY_LEFT) == KEY_LEFT)
     {
-       if (xuser > left) {
+       if (xuser > 80) {
 			xuser--;
 		}
     }
