@@ -1477,8 +1477,6 @@ u16 sprites[] = {
 extern int state;
 extern int xuser;
 
-extern int left;
-extern int right;
 extern int select;
 extern int blinker;
 
@@ -1492,13 +1490,16 @@ void checkbutton(void)
     {
         if (state == 0) {
              if (select == 0) {
+                 clearSprite1();
                  state = 1;
              }
              else if (select == 1) {
+                 clearSprite1();
                  state = 5;
              }
          }
         else if (state == 5) {
+            clearSprite1();
             state = 0;
         }
     }
@@ -1514,14 +1515,17 @@ void checkbutton(void)
     {
         if (state == 0) {
              if (select == 0) {
+                 clearSprite1();
                  state = 1;
              }
              else if (select == 1 && blinker > 1) {
+                 clearSprite1();
                  state = 5;
                  blinker = 0;
              }
          }
         else if (state == 5 && blinker > 1) {
+            clearSprite1();
             state = 0;
             blinker = 0;
         }
@@ -1556,7 +1560,6 @@ void checkbutton(void)
     }
 }
 
-
 void fillPalette(void)
 {
     int i;
@@ -1590,6 +1593,13 @@ void drawSprite(int numb, int No, int x, int y)
     *(unsigned short *)(0x7000002 + 8*No) = x | 0x4000;
     *(unsigned short *)(0x7000004 + 8*No) = numb*8;
 }
+
+void clearSprite1(void) {
+        int i;
+        for(i = 0; i < 128; i++) {
+       drawSprite(0, i, 240, 160);
+        }
+}
 # 6 "main.c" 2
 
 int state = 0;
@@ -1602,8 +1612,8 @@ int replay0,replay1,replay2,replay3,replay4,replay5,replay6,replay7,replay8,repl
 int replay20,replay21,replay22,replay23,replay24,replay25,replay26,replay27,replay28,replay29,replay30 = 0;
 int y0,y1,y2,y3,y4,y5,y6,y7,y8,y9,y10 = 0;
 int y20,y21,y22,y23,y24,y25,y26,y27,y28,y29,y30 = 0;
-int number0 = 3,number1 =6, number2 = 3, number3 = 4,number4 = 5,number5 = 5,number6 = 4,number7 = 4,number8 = 5,number9 = 4,number10 = 4;
-int number20 = 5,number21 = 6, number22 = 4, number23 = 8,number24 = 6,number25 = 8,number26 = 5,number27 = 6,number28 = 6,number29 = 3,number30 = 6;
+int number0 = 3,number1 =6, number2 = 4, number3 = 4,number4 = 5,number5 = 5,number6 = 4,number7 = 4,number8 = 5,number9 = 4,number10 = 4;
+int number20 = 3,number21 =3, number22 = 3, number23 = 3,number24 = 4,number25 = 4,number26 = 3,number27 = 3,number28 = 3,number29 = 3,number30 = 3;
 int xuser = 120;
 int middle = 112, left = 96, right = 128;
 int road_y,beach_y,ocean_y,palm_y1,palm_y2,finish_y = 0;
@@ -1637,7 +1647,7 @@ void resettimer(void) {
                 y10 = 0;
                 number0 = 3;
                 number1 =6;
-                number2 = 3;
+                number2 = 4;
                 number3 = 4;
                 number4 = 5;
                 number5 = 5;
@@ -1672,17 +1682,17 @@ void resettimer(void) {
                 y28 = 0;
                 y29 = 0;
                 y30 = 0;
-                number20 = 5;
-                number21 = 6;
-                number22 = 4;
-                number23 = 8;
-                number24 = 6;
-                number25 = 8;
-                number26 = 5;
-                number27 = 6;
-                number28 = 6;
+                number20 = 3;
+                number21 = 3;
+                number22 = 3;
+                number23 = 3;
+                number24 = 4;
+                number25 = 4;
+                number26 = 3;
+                number27 = 3;
+                number28 = 3;
                 number29 = 3;
-                number30 = 6;
+                number30 = 3;
                 finish_y2 = 0;
         }
         if (state != 3) {
@@ -1768,7 +1778,12 @@ void drawvehicle(int veh, int id, int speed, int x, int *y, int interval, int st
                 drawSprite( veh, id, 240, 160);
                 *y = 0;
                 (*nooftimes)--;
-                *replay = 0;
+                if (*replay > starttime*53) {
+                        *replay = *replay - starttime*53;
+                }
+                else {
+                        *replay = *replay - interval*53;
+                }
                 }
         }
 }
@@ -1850,31 +1865,52 @@ void clearSprite(void) {
 }
 
 void drawMenu(void) {
-                drawSprite( 18, 113, 70, 30);
-                drawSprite( 35, 114, 88, 36);
-                drawSprite( 5, 115, 104, 36);
-                drawSprite( 10, 116, 120, 36);
-                drawSprite( 10, 117, 136, 36);
-                drawSprite( 34, 118, 152, 36);
+        drawSprite( 18, 113, 70, 30);
+        drawSprite( 35, 114, 88, 36);
+        drawSprite( 5, 115, 104, 36);
+        drawSprite( 10, 116, 120, 36);
+        drawSprite( 10, 117, 136, 36);
+        drawSprite( 34, 118, 152, 36);
 
-                drawSprite( 3, 100, 88, 96);
-                drawSprite( 4, 101, 104, 96);
-                drawSprite( 6, 102, 120, 96);
-                drawSprite( 5, 103, 136, 96);
-                drawSprite( 4, 104, 152, 96);
+        drawSprite( 3, 100, 88, 96);
+        drawSprite( 4, 101, 104, 96);
+        drawSprite( 6, 102, 120, 96);
+        drawSprite( 5, 103, 136, 96);
+        drawSprite( 4, 104, 152, 96);
 
-                drawSprite( 30, 105, 72, 130);
-                drawSprite( 5, 106, 88, 130);
-                drawSprite( 8, 107, 104, 130);
-                drawSprite( 31, 108, 120, 130);
-                drawSprite( 16, 109, 136, 130);
-                drawSprite( 4, 110, 144, 130);
-                drawSprite( 3, 111, 162, 130);
+        drawSprite( 30, 105, 72, 130);
+        drawSprite( 5, 106, 88, 130);
+        drawSprite( 8, 107, 104, 130);
+        drawSprite( 31, 108, 120, 130);
+        drawSprite( 16, 109, 136, 130);
+        drawSprite( 4, 110, 144, 130);
+        drawSprite( 3, 111, 162, 130);
+
         if(select == 0) {
                 drawSprite( 36, 112, 50, 96);
         }
+
         else if(select == 1) {
                 drawSprite( 36, 112, 50, 130);
+        }
+
+        if(blinker%2) {
+                if(select == 0) {
+                        drawSprite( 3, 100, 240, 160);
+                        drawSprite( 4, 101, 240, 160);
+                        drawSprite( 6, 102, 240, 160);
+                        drawSprite( 5, 103, 240, 160);
+                        drawSprite( 4, 104, 240, 160);
+                }
+                else if(select == 1) {
+                        drawSprite( 30, 105, 240, 160);
+                        drawSprite( 5, 106, 240, 160);
+                        drawSprite( 8, 107, 240, 160);
+                        drawSprite( 31, 108, 240, 160);
+                        drawSprite( 16, 109, 240, 160);
+                        drawSprite( 4, 110, 240, 160);
+                        drawSprite( 3, 111, 240, 160);
+                }
         }
 }
 
@@ -1914,7 +1950,6 @@ void drawCredits(void) {
 void game(void) {
         bigcount();
         if (state == 0) {
-                clearSprite();
                 drawMenu();
         }
 
@@ -1941,17 +1976,17 @@ void game(void) {
                 }
 
                 drawSprite(17, 0, xuser, 140);
-                drawvehicle(0,1,1,middle,&y0,0,3,&number0, &replay0);
-                drawvehicle(1,2,1,right,&y1,1,4,&number1, &replay1);
-            drawvehicle(2,3,1,left,&y2,0,5,&number2, &replay2);
-                drawvehicle(2,4,1,middle,&y3,0,7,&number3, &replay3);
-                drawvehicle(0,5,1,right,&y4,1,10,&number4, &replay4);
-                drawvehicle(0,6,1,left,&y5,1,10,&number5, &replay5);
-                drawvehicle(1,7,1,middle,&y6,0,17,&number6, &replay6);
-                drawvehicle(2,8,2,80,&y7,0,6,&number7, &replay7);
-                drawvehicle(0,9,1,144,&y8,2,5,&number8, &replay8);
-                drawvehicle(1,10,1,80,&y9,1,16,&number9, &replay9);
-                drawvehicle(2,11,1,144,&y10,0,8,&number10, &replay10);
+                drawvehicle(0,1,1,middle,&y0,3,3,&number0, &replay0);
+                drawvehicle(1,2,1,right,&y1,4,4,&number1, &replay1);
+            drawvehicle(2,3,1,left,&y2,3,5,&number2, &replay2);
+                drawvehicle(2,4,1,middle,&y3,3,7,&number3, &replay3);
+                drawvehicle(0,5,1,right,&y4,4,10,&number4, &replay4);
+                drawvehicle(0,6,1,left,&y5,4,10,&number5, &replay5);
+                drawvehicle(1,7,1,middle,&y6,3,17,&number6, &replay6);
+                drawvehicle(2,8,2,80,&y7,3,6,&number7, &replay7);
+                drawvehicle(0,9,1,144,&y8,5,5,&number8, &replay8);
+                drawvehicle(1,10,1,80,&y9,4,16,&number9, &replay9);
+                drawvehicle(2,11,1,144,&y10,3,8,&number10, &replay10);
 
                 beach_y = drawYMoving(21, beach_y, 64, 80);
                 ocean_y = drawYMoving(22, ocean_y, 48, 91);
@@ -1961,7 +1996,7 @@ void game(void) {
                 drawRoad (19, 20, &road_y, 80, 5, 30);
 
 
-                if(((y0>=134&&y0<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y1>=134&&y1<=141)&&((xuser-8<=right)&&(right<=xuser+8)))||((y2>=134&&y2<=140)&&((xuser-8<=left)&&(left<=xuser+8)))||((y3>=134&&y3<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y4>=134&&y4<=140)&&((xuser-8<=right)&&(right<=xuser+8)))||((y5>=134&&y5<=140)&&((xuser-8<=left)&&(left<=xuser+8)))||((y6>=134&&y6<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y7>=134&&y7<=140)&&((xuser-8<=80)&&(80<=xuser+8)))||((y8>=134&&y8<=140)&&((xuser-8<=144)&&(144<=xuser+8)))||((y9>=134&&y9<=140)&&((xuser-8<=80)&&(80<=xuser+8)))||((y10>=134&&y10<=140)&&((xuser-8<=144)&&(144<=xuser+8)))) {
+                if((y0==140&&((xuser-8<=middle)&&(middle<=xuser+8)))||(y1==140&&((xuser-8<=right)&&(right<=xuser+8)))||(y2==140&&((xuser-8<=left)&&(left<=xuser+8)))||(y3==140&&((xuser-8<=middle)&&(middle<=xuser+8)))||(y4==140&&((xuser-8<=right)&&(right<=xuser+8)))||(y5==140&&((xuser-8<=left)&&(left<=xuser+8)))||(y6==140&&((xuser-8<=middle)&&(middle<=xuser+8)))||(y7==140&&((xuser-8<=80)&&(80<=xuser+8)))||(y8==140&&((xuser-8<=144)&&(144<=xuser+8)))||(y9==140&&((xuser-8<=80)&&(80<=xuser+8)))||(y10==140&&((xuser-8<=144)&&(144<=xuser+8)))) {
                         count = 0;
                         state = 3;
                         }
@@ -1986,7 +2021,7 @@ void game(void) {
                 drawSprite( 5, 24, 144, 108);
 
                 }
-                if (sec == 5) {
+                if (sec == 35) {
                         clearSprite();
                         count = 0;
                         state = 2;
@@ -2015,17 +2050,17 @@ void game(void) {
         }
 
                 drawSprite(17, 0, xuser, 140);
-                drawvehicle(0,1,2,middle,&y20,2,4,&number20, &replay20);
-                drawvehicle(1,2,3,right,&y21,0,3,&number21, &replay21);
-            drawvehicle(2,3,2,left,&y22,2,3,&number22, &replay22);
-                drawvehicle(2,4,3,middle,&y23,0,19,&number23, &replay23);
-                drawvehicle(0,5,2,right,&y24,1,15,&number24, &replay24);
-                drawvehicle(0,6,3,left,&y25,1,15,&number25, &replay25);
-                drawvehicle(1,7,2,144,&y26,1,3,&number26, &replay26);
-                drawvehicle(0,8,3,80,&y27,1,6,&number27, &replay27);
-                drawvehicle(1,9,2,144,&y28,1,11,&number28, &replay28);
-                drawvehicle(2,10,2,80,&y29,2,17,&number29, &replay29);
-                drawvehicle(2,11,3,144,&y30,0,22,&number30, &replay30);
+                drawvehicle(0,1,1,middle,&y20,3,3,&number20, &replay20);
+                drawvehicle(1,2,1,right,&y21,4,4,&number21, &replay21);
+            drawvehicle(2,3,1,left,&y22,3,5,&number22, &replay22);
+                drawvehicle(2,4,1,middle,&y23,3,7,&number23, &replay23);
+                drawvehicle(0,5,1,right,&y24,5,11,&number24, &replay24);
+                drawvehicle(0,6,1,left,&y25,4,10,&number25, &replay25);
+                drawvehicle(1,7,1,middle,&y26,3,17,&number26, &replay26);
+                drawvehicle(0,8,1,80,&y27,3,17,&number27, &replay27);
+                drawvehicle(1,9,1,144,&y28,3,17,&number28, &replay28);
+                drawvehicle(2,10,1,80,&y29,3,17,&number29, &replay29);
+                drawvehicle(2,10,1,144,&y30,3,17,&number30, &replay30);
 
                 drawRoad(19, 20, &road_y2, 80, 5, 30);
                 bridgeleft_y = drawYMoving(26, bridgeleft_y, 64, 80);
@@ -2033,16 +2068,11 @@ void game(void) {
                 lavaleft_y = drawYMoving(28, lavaleft_y, 48, 102);
                 lavaright_y =drawYMoving(29, lavaright_y, 176, 113);
 
-                if(((y20>=134&&y20<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y21>=134&&y21<=141)&&((xuser-8<=right)&&(right<=xuser+8)))||((y22>=134&&y22<=140)&&((xuser-8<=left)&&(left<=xuser+8)))||((y23>=134&&y23<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y24>=134&&y24<=140)&&((xuser-8<=right)&&(right<=xuser+8)))||((y25>=134&&y25<=140)&&((xuser-8<=left)&&(left<=xuser+8)))||((y26>=134&&y26<=140)&&((xuser-8<=144)&&(144<=xuser+8)))||((y27>=134&&y27<=140)&&((xuser-8<=80)&&(80<=xuser+8)))||((y28>=134&&y28<=140)&&((xuser-8<=144)&&(144<=xuser+8)))||((y29>=134&&y29<=140)&&((xuser-8<=80)&&(80<=xuser+8)))||((y30>=134&&y30<=140)&&((xuser-8<=144)&&(144<=xuser+8)))) {
-                        sec3 = 0;
-                        state = 3;
-                        }
-
-                if (sec2 > 29) {
+                if (sec2 > 8) {
                         finish_y2 = drawXLineMoving(25, finish_y2, 80, 1);
                 }
 
-                if (sec2 == 32) {
+                if (sec2 == 11) {
                         drawSprite( 3, 12, 80, 72);
                         drawSprite( 4, 13, 96, 72);
                         drawSprite( 6, 14, 112, 72);
@@ -2057,7 +2087,7 @@ void game(void) {
                         drawSprite( 6, 23, 128, 108);
                         drawSprite( 5, 24, 144, 108);
                 }
-                if (sec2 == 35) {
+                if (sec2 == 13) {
                         clearSprite();
                         state = 4;
                 }
@@ -2095,7 +2125,6 @@ void game(void) {
                 }
         }
         else if (state == 5) {
-                clearSprite();
                 drawCredits();
         }
 }
