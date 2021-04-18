@@ -4,6 +4,8 @@
 extern int state;
 extern int xuser;
 // Updated upstream
+extern int left;
+extern int right;
 extern int select;
 extern int blinker; //delay for buttons in main menu and credits
 
@@ -17,16 +19,13 @@ void checkbutton(void)
     {
      	if (state == 0) {
              if (select == 0)   {
-                 clearSprite1();
                  state = 1;
              }
              else if (select == 1)   {
-                 clearSprite1();
                  state = 5;
              }
          }
         else if (state == 5) {
-            clearSprite1();
             state = 0;
         }
     }
@@ -42,17 +41,14 @@ void checkbutton(void)
     {
      	if (state == 0) {
              if (select == 0)   {
-                 clearSprite1();
                  state = 1;
              }
              else if (select == 1 && blinker > 1)   {
-                 clearSprite1();
                  state = 5;
                  blinker = 0;
              }
          }
         else if (state == 5 && blinker > 1) {
-            clearSprite1();
             state = 0;
             blinker = 0;
         }
@@ -86,6 +82,7 @@ void checkbutton(void)
        }
     }
 }
+
 
 void fillPalette(void)
 {
@@ -121,10 +118,5 @@ void drawSprite(int numb, int No, int x, int y)
     *(unsigned short *)(0x7000004 + 8*No) = numb*8;
 }
 
-void clearSprite1(void) {
-	int i;
-	for(i = 0; i < 128; i++) {    //clear everything prepare for state 2
-       drawSprite(0, i, 240, 160);
-	}
-}
+
 
