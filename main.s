@@ -9174,7 +9174,7 @@ sprites:
 	.short	0
 	.short	0
 	.short	1
-	.short	1
+	.short	0
 	.short	0
 	.short	0
 	.short	0
@@ -9198,10 +9198,10 @@ sprites:
 	.short	0
 	.short	0
 	.short	0
-	.short	1
 	.short	0
 	.short	0
-	.short	1
+	.short	0
+	.short	0
 	.short	1
 	.short	0
 	.short	0
@@ -9209,13 +9209,14 @@ sprites:
 	.short	0
 	.short	0
 	.short	0
-	.short	1
+	.short	0
 	.short	1
 	.short	0
 	.short	0
 	.short	0
 	.short	0
 	.short	0
+	.short	0
 	.short	1
 	.short	1
 	.short	0
@@ -9224,14 +9225,14 @@ sprites:
 	.short	0
 	.short	0
 	.short	0
-	.short	1
 	.short	1
 	.short	0
 	.short	0
 	.short	0
 	.short	0
 	.short	0
-	.short	1
+	.short	0
+	.short	0
 	.short	1
 	.short	0
 	.short	0
@@ -9255,7 +9256,6 @@ sprites:
 	.short	0
 	.short	0
 	.short	0
-	.short	1
 	.short	0
 	.short	0
 	.short	0
@@ -9304,30 +9304,8 @@ sprites:
 	.short	0
 	.short	0
 	.short	0
-	.short	1
-	.short	1
-	.short	1
-	.short	1
-	.short	1
-	.short	1
-	.short	1
 	.short	0
-	.short	1
-	.short	1
-	.short	1
-	.short	1
-	.short	1
-	.short	1
-	.short	1
 	.short	0
-	.short	1
-	.short	1
-	.short	1
-	.short	1
-	.short	1
-	.short	1
-	.short	1
-	.short	1
 	.short	0
 	.short	0
 	.short	0
@@ -9335,72 +9313,69 @@ sprites:
 	.short	0
 	.short	0
 	.short	0
-	.short	1
-	.short	1
 	.short	0
 	.short	0
 	.short	0
 	.short	0
 	.short	0
 	.short	0
-	.short	1
-	.short	1
-	.short	1
 	.short	0
 	.short	0
 	.short	0
 	.short	0
 	.short	0
-	.short	1
-	.short	1
-	.short	1
-	.short	1
 	.short	0
 	.short	0
 	.short	0
 	.short	0
-	.short	1
-	.short	1
-	.short	1
-	.short	1
-	.short	1
 	.short	0
 	.short	0
 	.short	0
-	.short	1
-	.short	1
-	.short	1
-	.short	1
-	.short	1
-	.short	1
 	.short	0
 	.short	0
-	.short	1
-	.short	1
-	.short	1
-	.short	1
+	.short	0
+	.short	0
+	.short	0
 	.short	1
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
 	.short	1
 	.short	1
 	.short	0
-	.short	1
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
 	.short	1
 	.short	1
 	.short	1
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
 	.short	1
 	.short	1
 	.short	1
 	.short	1
 	.short	0
-	.short	1
-	.short	1
+	.short	0
+	.short	0
+	.short	0
 	.short	1
 	.short	1
 	.short	1
 	.short	1
 	.short	1
 	.short	0
-	.short	1
+	.short	0
+	.short	0
 	.short	1
 	.short	1
 	.short	1
@@ -9408,6 +9383,7 @@ sprites:
 	.short	1
 	.short	1
 	.short	0
+	.short	0
 	.short	1
 	.short	1
 	.short	1
@@ -9455,14 +9431,31 @@ sprites:
 	.short	0
 	.short	0
 	.short	0
-	.short	1
-	.short	1
-	.short	1
-	.short	1
-	.short	1
-	.short	1
-	.short	1
-	.short	1
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
 	.short	1
 	.short	1
 	.short	1
@@ -9512,6 +9505,13 @@ sprites:
 	.short	0
 	.short	0
 	.short	1
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	0
 	.short	0
 	.short	0
 	.short	0
