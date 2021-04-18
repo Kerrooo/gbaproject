@@ -1479,6 +1479,9 @@ extern int xuser;
 
 extern int select;
 extern int blinker;
+extern int select2;
+extern int blinker2;
+extern int count1;
 
 
 void checkbutton(void)
@@ -1488,7 +1491,7 @@ void checkbutton(void)
 
     if ((buttons & 0x001) == 0x001)
     {
-        if (state == 0) {
+        if (state == 0 && count1 > 15) {
              if (select == 0) {
                  clearSprite1();
                  state = 1;
@@ -1502,6 +1505,16 @@ void checkbutton(void)
             clearSprite1();
             state = 0;
         }
+        else if (state == 6) {
+            if (select2 == 0) {
+                clearSprite1();
+                state = 2;
+            }
+            else if (select2 == 1) {
+                clearSprite1();
+                state = 0;
+            }
+        }
     }
     if ((buttons & 0x002) == 0x002)
     {
@@ -1513,7 +1526,7 @@ void checkbutton(void)
     }
     if ((buttons & 0x008) == 0x008)
     {
-        if (state == 0) {
+        if (state == 0 && count1 > 15) {
              if (select == 0) {
                  clearSprite1();
                  state = 1;
@@ -1528,6 +1541,17 @@ void checkbutton(void)
             clearSprite1();
             state = 0;
             blinker = 0;
+        }
+        if (state == 6) {
+             if (select2 == 0) {
+                 clearSprite1();
+                 state = 2;
+             }
+             else if (select2 == 1 && blinker2 > 1) {
+                 clearSprite1();
+                 state = 0;
+                 blinker2 = 0;
+             }
         }
     }
     if ((buttons & 0x010) == 0x010)
@@ -1544,17 +1568,27 @@ void checkbutton(void)
     }
     if ((buttons & 0x040) == 0x040)
     {
-       if(state == 0) {
+       if(state == 0 && count1 > 15) {
            if(select == 1) {
                select = 0;
+           }
+       }
+       if(state == 6) {
+           if(select2 == 1) {
+               select2 = 0;
            }
        }
     }
     if ((buttons & 0x080) == 0x080)
     {
-       if(state == 0) {
+       if(state == 0 && count1 > 15) {
            if(select == 0) {
                select = 1;
+           }
+       }
+       if(state == 6) {
+           if(select2 == 0) {
+               select2 = 1;
            }
        }
     }
@@ -1603,7 +1637,7 @@ void clearSprite1(void) {
 # 6 "main.c" 2
 
 int state = 0;
-int count = 0;
+int count, count1 = 0;
 int sec = 0;
 int sec2 = 0;
 int sec3 = 0;
@@ -1619,8 +1653,12 @@ int middle = 112, left = 96, right = 128;
 int road_y,beach_y,ocean_y,palm_y1,palm_y2,finish_y = 0;
 int road_y2,bridgeleft_y,bridgeright_y,lavaleft_y,lavaright_y,finish_y2 = 0;
 int select = 0, blinker = 0;
+int select2 = 0, blinker2 = 0;
 
 void resettimer(void) {
+        if (state != 0) {
+                count1 = 0;
+        }
         if (state != 1) {
                 sec = 0;
                 replay0 = 0;
@@ -1706,13 +1744,22 @@ void resettimer(void) {
 void bigcount (void) {
         resettimer();
         if (count > 53 && state != 0) {
-                count =0;
+                count = 0;
         }
         else if (state == 0 || state == 5) {
                 if (count == 25 ) {
                         blinker ++;
                         count = 0;
                 }
+        }
+        else if (state ==6) {
+                if (count == 25){
+                        blinker2++;
+                        count = 0;
+                }
+        }
+        if (state == 0){
+                count1++;
         }
         else if (state == 1) {
                 replay0++;
@@ -1860,6 +1907,7 @@ void clearSprite(void) {
 }
 
 void drawMenu(void) {
+
         drawSprite( 18, 113, 70, 30);
         drawSprite( 35, 114, 86, 36);
         drawSprite( 5, 115, 104, 36);
@@ -1910,6 +1958,7 @@ void drawMenu(void) {
 }
 
 void drawCredits(void) {
+
         drawSprite( 30, 105, 72, 24);
         drawSprite( 5, 106, 88, 24);
         drawSprite( 8, 107, 104, 24);
@@ -1983,15 +2032,14 @@ void game(void) {
                 drawvehicle(1,10,1,80,&y9,1,16,&number9, &replay9);
                 drawvehicle(2,11,1,144,&y10,0,8,&number10, &replay10);
 
+                drawRoad (19, 20, &road_y, 80, 5, 30);
                 beach_y = drawYMoving(21, beach_y, 64, 80);
                 ocean_y = drawYMoving(22, ocean_y, 48, 91);
                 palm_y1 = drawYMoving(23, palm_y1, 160, 102);
                 palm_y2 = drawYMoving(24, palm_y2, 176, 113);
 
-                drawRoad (19, 20, &road_y, 80, 5, 30);
 
-
-if(((y0>=134&&y0<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y1>=134&&y1<=141)&&((xuser-8<=right)&&(right<=xuser+8)))||((y2>=134&&y2<=140)&&((xuser-8<=left)&&(left<=xuser+8)))||((y3>=134&&y3<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y4>=134&&y4<=140)&&((xuser-8<=right)&&(right<=xuser+8)))||((y5>=134&&y5<=140)&&((xuser-8<=left)&&(left<=xuser+8)))||((y6>=134&&y6<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y7>=134&&y7<=140)&&((xuser-8<=80)&&(80<=xuser+8)))||((y8>=134&&y8<=140)&&((xuser-8<=144)&&(144<=xuser+8)))||((y9>=134&&y9<=140)&&((xuser-8<=80)&&(80<=xuser+8)))||((y10>=134&&y10<=140)&&((xuser-8<=144)&&(144<=xuser+8)))) {
+                if(((y0>=134&&y0<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y1>=134&&y1<=141)&&((xuser-8<=right)&&(right<=xuser+8)))||((y2>=134&&y2<=140)&&((xuser-8<=left)&&(left<=xuser+8)))||((y3>=134&&y3<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y4>=134&&y4<=140)&&((xuser-8<=right)&&(right<=xuser+8)))||((y5>=134&&y5<=140)&&((xuser-8<=left)&&(left<=xuser+8)))||((y6>=134&&y6<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y7>=134&&y7<=140)&&((xuser-8<=80)&&(80<=xuser+8)))||((y8>=134&&y8<=140)&&((xuser-8<=144)&&(144<=xuser+8)))||((y9>=134&&y9<=140)&&((xuser-8<=80)&&(80<=xuser+8)))||((y10>=134&&y10<=140)&&((xuser-8<=144)&&(144<=xuser+8)))) {
                         count = 0;
                         state = 3;
                         }
@@ -2042,34 +2090,35 @@ if(((y0>=134&&y0<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y1>=134&&y1<=
                         drawSprite( 4, 17, 240, 160);
                         drawSprite( 12, 18, 240, 160);
                         drawSprite( 10, 19, 240, 160);
-        }
+                }
+                if (sec2 < 33) {
+                        drawSprite(17, 0, xuser, 140);
+                        drawvehicle(0,1,2,middle,&y20,2,4,&number20, &replay20);
+                        drawvehicle(1,2,3,right,&y21,0,3,&number21, &replay21);
+                   drawvehicle(2,3,2,left,&y22,2,3,&number22, &replay22);
+                        drawvehicle(2,4,3,middle,&y23,0,19,&number23, &replay23);
+                        drawvehicle(0,5,2,right,&y24,1,15,&number24, &replay24);
+                        drawvehicle(0,6,3,left,&y25,1,15,&number25, &replay25);
+                        drawvehicle(1,7,2,144,&y26,1,3,&number26, &replay26);
+                        drawvehicle(0,8,3,80,&y27,1,6,&number27, &replay27);
+                        drawvehicle(1,9,2,144,&y28,1,11,&number28, &replay28);
+                        drawvehicle(2,10,2,80,&y29,2,17,&number29, &replay29);
+                        drawvehicle(2,11,3,144,&y30,0,22,&number30, &replay30);
 
-                drawSprite(17, 0, xuser, 140);
-                drawvehicle(0,1,2,middle,&y20,2,4,&number20, &replay20);
-                drawvehicle(1,2,3,right,&y21,0,3,&number21, &replay21);
-            drawvehicle(2,3,2,left,&y22,2,3,&number22, &replay22);
-                drawvehicle(2,4,3,middle,&y23,0,19,&number23, &replay23);
-                drawvehicle(0,5,2,right,&y24,1,15,&number24, &replay24);
-                drawvehicle(0,6,3,left,&y25,1,15,&number25, &replay25);
-                drawvehicle(1,7,2,144,&y26,1,3,&number26, &replay26);
-                drawvehicle(0,8,3,80,&y27,1,6,&number27, &replay27);
-                drawvehicle(1,9,2,144,&y28,1,11,&number28, &replay28);
-                drawvehicle(2,10,2,80,&y29,2,17,&number29, &replay29);
-                drawvehicle(2,11,3,144,&y30,0,22,&number30, &replay30);
+                        drawRoad(19, 20, &road_y2, 80, 5, 30);
+                        bridgeleft_y = drawYMoving(26, bridgeleft_y, 64, 80);
+                        bridgeright_y = drawYMoving(27, bridgeright_y, 160, 91);
+                        lavaleft_y = drawYMoving(28, lavaleft_y, 48, 102);
+                        lavaright_y =drawYMoving(29, lavaright_y, 176, 113);
 
-                drawRoad(19, 20, &road_y2, 80, 5, 30);
-                bridgeleft_y = drawYMoving(26, bridgeleft_y, 64, 80);
-                bridgeright_y = drawYMoving(27, bridgeright_y, 160, 91);
-                lavaleft_y = drawYMoving(28, lavaleft_y, 48, 102);
-                lavaright_y =drawYMoving(29, lavaright_y, 176, 113);
 
-                if(((y20>=134&&y20<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y21>=134&&y21<=141)&&((xuser-8<=right)&&(right<=xuser+8)))||((y22>=134&&y22<=140)&&((xuser-8<=left)&&(left<=xuser+8)))||((y23>=134&&y23<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y24>=134&&y24<=140)&&((xuser-8<=right)&&(right<=xuser+8)))||((y25>=134&&y25<=140)&&((xuser-8<=left)&&(left<=xuser+8)))||((y26>=134&&y26<=140)&&((xuser-8<=144)&&(144<=xuser+8)))||((y27>=134&&y27<=140)&&((xuser-8<=80)&&(80<=xuser+8)))||((y28>=134&&y28<=140)&&((xuser-8<=144)&&(144<=xuser+8)))||((y29>=134&&y29<=140)&&((xuser-8<=80)&&(80<=xuser+8)))||((y30>=134&&y30<=140)&&((xuser-8<=144)&&(144<=xuser+8)))) {
-                        sec3 = 0;
-                        state = 3;
+                        if(((y20>=134&&y20<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y21>=134&&y21<=141)&&((xuser-8<=right)&&(right<=xuser+8)))||((y22>=134&&y22<=140)&&((xuser-8<=left)&&(left<=xuser+8)))||((y23>=134&&y23<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y24>=134&&y24<=140)&&((xuser-8<=right)&&(right<=xuser+8)))||((y25>=134&&y25<=140)&&((xuser-8<=left)&&(left<=xuser+8)))||((y26>=134&&y26<=140)&&((xuser-8<=144)&&(144<=xuser+8)))||((y27>=134&&y27<=140)&&((xuser-8<=80)&&(80<=xuser+8)))||((y28>=134&&y28<=140)&&((xuser-8<=144)&&(144<=xuser+8)))||((y29>=134&&y29<=140)&&((xuser-8<=80)&&(80<=xuser+8)))||((y30>=134&&y30<=140)&&((xuser-8<=144)&&(144<=xuser+8)))) {
+                                sec4 = 0;
+                                state = 4;
+                                }
+                        if (sec2 > 29) {
+                                finish_y2 = drawXLineMoving(25, finish_y2, 80, 1);
                         }
-
-                if (sec2 > 29) {
-                        finish_y2 = drawXLineMoving(25, finish_y2, 80, 1);
                 }
 
                 if (sec2 == 32) {
@@ -2087,9 +2136,20 @@ if(((y0>=134&&y0<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y1>=134&&y1<=
                         drawSprite( 6, 23, 128, 108);
                         drawSprite( 5, 24, 144, 108);
                 }
-                if (sec2 == 35) {
+                if (sec2 == 33) {
                         clearSprite();
-                        state = 4;
+                }
+                if (sec2 == 34) {
+                        drawSprite( 13, 101, 60, 72);
+                        drawSprite( 10, 103, 80, 72);
+                        drawSprite( 14, 104, 96, 72);
+                        drawSprite( 12, 105, 128, 72);
+                        drawSprite( 16, 106, 148, 72);
+                        drawSprite( 11, 107, 156, 72);
+                }
+                if (sec2 == 36){
+                        clearSprite();
+                        state = 0;
                 }
         }
         else if (state == 3 ) {
@@ -2098,10 +2158,10 @@ if(((y0>=134&&y0<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y1>=134&&y1<=
                         drawSprite( 13, 2, 96, 72);
                         drawSprite( 10, 3, 112, 72);
                         drawSprite( 14, 4, 128, 72);
-                        drawSprite( 15, 5, 88, 88);
-                        drawSprite( 10, 6, 104, 88);
-                        drawSprite( 3, 7, 120, 88);
-                        drawSprite( 8, 8, 136, 88);
+                        drawSprite( 15, 5, 88, 90);
+                        drawSprite( 10, 6, 104, 90);
+                        drawSprite( 3, 7, 120, 90);
+                        drawSprite( 8, 8, 136, 90);
                 }
                 if (sec3 == 5) {
                         sec3 = 0;
@@ -2110,22 +2170,60 @@ if(((y0>=134&&y0<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y1>=134&&y1<=
                 }
         }
         else if (state == 4) {
-                bigcount();
-                drawSprite( 13, 101, 60, 72);
-                drawSprite( 10, 103, 80, 72);
-                drawSprite( 14, 104, 96, 72);
-                drawSprite( 12, 105, 128, 72);
-                drawSprite( 16, 106, 148, 72);
-                drawSprite( 11, 107, 156, 72);
-
+                drawSprite(18,0, xuser, 140);
+                if (sec4 == 2) {
+                        drawSprite( 13, 2, 96, 72);
+                        drawSprite( 10, 3, 112, 72);
+                        drawSprite( 14, 4, 128, 72);
+                        drawSprite( 15, 5, 88, 90);
+                        drawSprite( 10, 6, 104, 90);
+                        drawSprite( 3, 7, 120, 90);
+                        drawSprite( 8, 8, 136, 90);
+                }
                 if (sec4 == 4) {
-                        sec4 = 0;
                         clearSprite();
-                        state = 0;
+                        state = 6;
+                        count =0;
                 }
         }
         else if (state == 5) {
                 drawCredits();
+        }
+        else if (state == 6) {
+                drawSprite( 5, 100, 88, 96);
+                drawSprite( 8, 101, 104, 96);
+                drawSprite( 4, 102, 120, 96);
+                drawSprite( 5, 103, 136, 96);
+                drawSprite( 13, 104, 152, 96);
+
+                drawSprite( 34, 105, 96, 130);
+                drawSprite( 8, 106, 112, 130);
+                drawSprite( 11, 107, 128, 130);
+                drawSprite( 14, 108, 144, 130);
+
+                if(select2 == 0) {
+                        drawSprite( 36, 112, 50, 96);
+                }
+
+                else if(select2 == 1) {
+                        drawSprite( 36, 112, 50, 130);
+                }
+
+                if(blinker2%2) {
+                        if(select2 == 0) {
+                                drawSprite( 5, 100, 240, 160);
+                                drawSprite( 8, 101, 240, 160);
+                                drawSprite( 4, 102, 240, 160);
+                                drawSprite( 5, 103, 240, 160);
+                                drawSprite( 13, 104, 240, 160);
+                        }
+                        else if(select2 == 1) {
+                                drawSprite( 34, 105, 240, 160);
+                                drawSprite( 8, 106, 240, 160);
+                                drawSprite( 11, 107, 240, 160);
+                                drawSprite( 14, 108, 240, 160);
+                        }
+                }
         }
 }
 
