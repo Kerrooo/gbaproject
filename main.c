@@ -267,32 +267,53 @@ void clearSprite(void) {
 }
 
 void drawMenu(void)	{
-		drawSprite( XPLODE, 113, 70, 30);
-		drawSprite( V, 114, 88, 36);
-		drawSprite( R, 115, 104, 36);
-		drawSprite( O, 116, 120, 36);
-		drawSprite( O, 117, 136, 36);
-		drawSprite( M, 118, 152, 36);
+	drawSprite( XPLODE, 113, 70, 30);
+	drawSprite( V, 114, 88, 36);
+	drawSprite( R, 115, 104, 36);
+	drawSprite( O, 116, 120, 36);
+	drawSprite( O, 117, 136, 36);
+	drawSprite( M, 118, 152, 36);
 		
-		drawSprite( S, 100, 88, 96);
-		drawSprite( T, 101, 104, 96);
-		drawSprite( A, 102, 120, 96);
-		drawSprite( R, 103, 136, 96);
-		drawSprite( T, 104, 152, 96);
+	drawSprite( S, 100, 88, 96);
+	drawSprite( T, 101, 104, 96);
+	drawSprite( A, 102, 120, 96);
+	drawSprite( R, 103, 136, 96);
+	drawSprite( T, 104, 152, 96);
 
-		drawSprite( C, 105, 72, 130);
-		drawSprite( R, 106, 88, 130);
-		drawSprite( E, 107, 104, 130);
-		drawSprite( D, 108, 120, 130);
-		drawSprite( I, 109, 136, 130);
-		drawSprite( T, 110, 144, 130);
-		drawSprite( S, 111, 162, 130);
+	drawSprite( C, 105, 72, 130);
+	drawSprite( R, 106, 88, 130);
+	drawSprite( E, 107, 104, 130);
+	drawSprite( D, 108, 120, 130);
+	drawSprite( I, 109, 136, 130);
+	drawSprite( T, 110, 144, 130);
+	drawSprite( S, 111, 162, 130);
+
 	if(select == 0)	{
 		drawSprite( ARROW, 112, 50, 96);
 	}
+
 	else if(select == 1)	{
 		drawSprite( ARROW, 112, 50, 130);
-	}	
+	}
+
+	if(blinker%2)	{
+		if(select == 0)	{
+			drawSprite( S, 100, 240, 160);
+			drawSprite( T, 101, 240, 160);
+			drawSprite( A, 102, 240, 160);
+			drawSprite( R, 103, 240, 160);
+			drawSprite( T, 104, 240, 160);
+		}
+		else if(select == 1)	{
+			drawSprite( C, 105, 240, 160);
+			drawSprite( R, 106, 240, 160);
+			drawSprite( E, 107, 240, 160);
+			drawSprite( D, 108, 240, 160);
+			drawSprite( I, 109, 240, 160);
+			drawSprite( T, 110, 240, 160);
+			drawSprite( S, 111, 240, 160);
+		}
+	}
 }
 
 void drawCredits(void)	{
@@ -331,7 +352,6 @@ void drawCredits(void)	{
 void game(void) {
 	bigcount();
 	if (state == 0) { 
-		clearSprite();
 		drawMenu();
 	}
 
@@ -507,7 +527,6 @@ void game(void) {
 		}
 	}
 	else if (state == 5)	{
-		clearSprite();
 		drawCredits();
 	} 	
 } 
