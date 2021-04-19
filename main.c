@@ -5,7 +5,7 @@
 #include "mygbalib.h"
 
 int state = 0;// game state: 0 for menu, 1 for stage 1, 2 for stage 2, 3 for lose, 4 for win, 5 for credits.
-int count = 0; // small counts to count seconds and refresh rate of y 
+int count, count1 = 0; // small counts to count seconds and refresh rate of y 
 int sec = 0;  // how many seconds passed
 int sec2 = 0;
 int sec3 = 0;
@@ -21,8 +21,12 @@ int middle = 112, left = 96, right = 128;	// x-axis for drawvehicle
 int road_y,beach_y,ocean_y,palm_y1,palm_y2,finish_y = 0; //pointer to store the moving y-coordinates of the background for state 1
 int road_y2,bridgeleft_y,bridgeright_y,lavaleft_y,lavaright_y,finish_y2 = 0;
 int select = 0, blinker = 0; // menu selection and visual cue
+int select2 = 0, blinker2 = 0;
 
 void resettimer(void) {    // put in bigcount, checks in every sate // also sets initial state of cars need to change both here and top
+	if (state != 0) {
+		count1 = 0;
+	} 
 	if (state != 1) {
 		sec = 0;
 		replay0 = 0;
@@ -108,13 +112,22 @@ void resettimer(void) {    // put in bigcount, checks in every sate // also sets
 void bigcount (void) {  //to increase sec and replay every second: so count will not overflow
 	resettimer();
 	if (count > 53 && state != 0) {
-		count =0;
+		count = 0;
 	}
 	else if (state == 0 || state == 5) {
 		if (count == 25 )	{
 			blinker ++;
 			count = 0;
 		}
+	}
+	else if (state ==6) {
+		if (count == 25){
+			blinker2++;
+			count = 0;
+		}
+	}
+	if (state == 0){
+		count1++;
 	}	
 	else if (state == 1) {
 		replay0++;
@@ -394,7 +407,7 @@ void game(void) {
 		palm_y2 = drawYMoving(PALM2, palm_y2, 176, 113); //Moving background
 
 		//function that detects if the user car intersects with a CPU car
-		if(((y0>=134&&y0<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y1>=134&&y1<=141)&&((xuser-8<=right)&&(right<=xuser+8)))||((y2>=134&&y2<=140)&&((xuser-8<=left)&&(left<=xuser+8)))||((y3>=134&&y3<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y4>=134&&y4<=140)&&((xuser-8<=right)&&(right<=xuser+8)))||((y5>=134&&y5<=140)&&((xuser-8<=left)&&(left<=xuser+8)))||((y6>=134&&y6<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y7>=134&&y7<=140)&&((xuser-8<=80)&&(80<=xuser+8)))||((y8>=134&&y8<=140)&&((xuser-8<=144)&&(144<=xuser+8)))||((y9>=134&&y9<=140)&&((xuser-8<=80)&&(80<=xuser+8)))||((y10>=134&&y10<=140)&&((xuser-8<=144)&&(144<=xuser+8)))) { // At y=140, check if any point at the front of the car intersects other cars.			count = 0;
+		if(((y0>=130&&y0<=150)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y1>=130&&y1<=150)&&((xuser-8<=right)&&(right<=xuser+8)))||((y2>=130&&y2<=150)&&((xuser-8<=left)&&(left<=xuser+8)))||((y3>=130&&y3<=150)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y4>=130&&y4<=150)&&((xuser-8<=right)&&(right<=xuser+8)))||((y5>=130&&y5<=150)&&((xuser-8<=left)&&(left<=xuser+8)))||((y6>=130&&y6<=150)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y7>=130&&y7<=150)&&((xuser-8<=80)&&(80<=xuser+8)))||((y8>=130&&y8<=150)&&((xuser-8<=144)&&(144<=xuser+8)))||((y9>=130&&y9<=150)&&((xuser-8<=80)&&(80<=xuser+8)))||((y10>=130&&y10<=150)&&((xuser-8<=144)&&(144<=xuser+8)))) { // At y=140, check if any point at the front of the car intersects other cars.			count = 0;
 			count = 0;
 			state = 3; //call the state that has the car explosion animation
 			}
@@ -445,35 +458,35 @@ void game(void) {
 			drawSprite( T, 17, 240, 160);
 			drawSprite( W, 18, 240, 160);
 			drawSprite( O, 19, 240, 160);
-   	}
+   		}
+		if (sec2 < 33) {
+			drawSprite(user, 0, xuser, 140); //User's car
+			drawvehicle(CAR0,1,2,middle,&y20,2,4,&number20, &replay20); //car, id, speed(1 or 2), x, dont change y, interval, start time, number of times, dont care
+	 	 	drawvehicle(CAR1,2,3,right,&y21,0,3,&number21, &replay21); // middle dotted line should be at 124 and 100
+	 	    drawvehicle(CAR2,3,2,left,&y22,2,3,&number22, &replay22); // change number from global int. set x, interval, start time here.
+			drawvehicle(CAR2,4,3,middle,&y23,0,19,&number23, &replay23);
+			drawvehicle(CAR0,5,2,right,&y24,1,15,&number24, &replay24);
+			drawvehicle(CAR0,6,3,left,&y25,1,15,&number25, &replay25);
+			drawvehicle(CAR1,7,2,144,&y26,1,3,&number26, &replay26);
+			drawvehicle(CAR0,8,3,80,&y27,1,6,&number27, &replay27);
+			drawvehicle(CAR1,9,2,144,&y28,1,11,&number28, &replay28);
+			drawvehicle(CAR2,10,2,80,&y29,2,17,&number29, &replay29);
+			drawvehicle(CAR2,11,3,144,&y30,0,22,&number30, &replay30);
 		
-		drawSprite(user, 0, xuser, 140); //User's car
-		drawvehicle(CAR0,1,2,middle,&y20,2,4,&number20, &replay20); //car, id, speed(1 or 2), x, dont change y, interval, start time, number of times, dont care
-	  	drawvehicle(CAR1,2,3,right,&y21,0,3,&number21, &replay21); // middle dotted line should be at 124 and 100
-	    drawvehicle(CAR2,3,2,left,&y22,2,3,&number22, &replay22); // change number from global int. set x, interval, start time here.
-		drawvehicle(CAR2,4,3,middle,&y23,0,19,&number23, &replay23);
-		drawvehicle(CAR0,5,2,right,&y24,1,15,&number24, &replay24);
-		drawvehicle(CAR0,6,3,left,&y25,1,15,&number25, &replay25);
-		drawvehicle(CAR1,7,2,144,&y26,1,3,&number26, &replay26);
-		drawvehicle(CAR0,8,3,80,&y27,1,6,&number27, &replay27);
-		drawvehicle(CAR1,9,2,144,&y28,1,11,&number28, &replay28);
-		drawvehicle(CAR2,10,2,80,&y29,2,17,&number29, &replay29);
-		drawvehicle(CAR2,11,3,144,&y30,0,22,&number30, &replay30);
-		
-		drawRoad(ROAD1, ROAD2, &road_y2, 80, 5, 30); //prints road
-		bridgeleft_y = drawYMoving(BRIDGELEFT, bridgeleft_y, 64, 80); //moving background
-		bridgeright_y = drawYMoving(BRIDGERIGHT, bridgeright_y, 160, 91);	//moving background		 
-		lavaleft_y = drawYMoving(LAVALEFT, lavaleft_y, 48, 102); //moving background
-		lavaright_y =drawYMoving(LAVARIGHT, lavaright_y, 176, 113); //moving background
+			drawRoad(ROAD1, ROAD2, &road_y2, 80, 5, 30); //prints road
+			bridgeleft_y = drawYMoving(BRIDGELEFT, bridgeleft_y, 64, 80); //moving background
+			bridgeright_y = drawYMoving(BRIDGERIGHT, bridgeright_y, 160, 91);	//moving background		 
+			lavaleft_y = drawYMoving(LAVALEFT, lavaleft_y, 48, 102); //moving background
+			lavaright_y =drawYMoving(LAVARIGHT, lavaright_y, 176, 113); //moving background
 
-		//function that detects if the user car intersects with a CPU car
-		if(((y20>=134&&y20<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y21>=134&&y21<=141)&&((xuser-8<=right)&&(right<=xuser+8)))||((y22>=134&&y22<=140)&&((xuser-8<=left)&&(left<=xuser+8)))||((y23>=134&&y23<=140)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y24>=134&&y24<=140)&&((xuser-8<=right)&&(right<=xuser+8)))||((y25>=134&&y25<=140)&&((xuser-8<=left)&&(left<=xuser+8)))||((y26>=134&&y26<=140)&&((xuser-8<=144)&&(144<=xuser+8)))||((y27>=134&&y27<=140)&&((xuser-8<=80)&&(80<=xuser+8)))||((y28>=134&&y28<=140)&&((xuser-8<=144)&&(144<=xuser+8)))||((y29>=134&&y29<=140)&&((xuser-8<=80)&&(80<=xuser+8)))||((y30>=134&&y30<=140)&&((xuser-8<=144)&&(144<=xuser+8)))) {	// At y=140, check if any point at the front of the car intersects other cars.
-			sec3 = 0;
-			state = 3;
+			//function that detects if the user car intersects with a CPU car
+			if(((y20>=130&&y20<=150)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y21>=130&&y21<=150)&&((xuser-8<=right)&&(right<=xuser+8)))||((y22>=130&&y22<=150)&&((xuser-8<=left)&&(left<=xuser+8)))||((y23>=130&&y23<=150)&&((xuser-8<=middle)&&(middle<=xuser+8)))||((y24>=130&&y24<=150)&&((xuser-8<=right)&&(right<=xuser+8)))||((y25>=130&&y25<=150)&&((xuser-8<=left)&&(left<=xuser+8)))||((y26>=130&&y26<=150)&&((xuser-8<=144)&&(144<=xuser+8)))||((y27>=130&&y27<=150)&&((xuser-8<=80)&&(80<=xuser+8)))||((y28>=130&&y28<=150)&&((xuser-8<=144)&&(144<=xuser+8)))||((y29>=130&&y29<=150)&&((xuser-8<=80)&&(80<=xuser+8)))||((y30>=130&&y30<=150)&&((xuser-8<=144)&&(144<=xuser+8)))) {	// At y=140, check if any point at the front of the car intersects other cars.
+				sec4 = 0;
+				state = 4;
+				}
+			if (sec2 > 29) {
+				finish_y2 = drawXLineMoving(FINISH, finish_y2, 80, 1); //prints the finish line
 			}
-
-		if (sec2 > 29) {
-			finish_y2 = drawXLineMoving(FINISH, finish_y2, 80, 1); //prints the finish line
 		}		
 
 		if (sec2 == 32) { //stage ends after user's car passes the finish line
@@ -491,10 +504,21 @@ void game(void) {
 			drawSprite( A, 23, 128, 108);
 			drawSprite( R, 24, 144, 108);
 		}
-		if (sec2 == 35) {  //stage two cleared, progresses to 'you win'
+		if (sec2 == 33) {  //stage two cleared, progresses to 'you win'
 			clearSprite();
-			state = 4;
-		}		
+		}
+		if (sec2 == 34) {
+			drawSprite( Y, 101, 60, 72);
+			drawSprite( O, 103, 80, 72);
+			drawSprite( U, 104, 96, 72);
+			drawSprite( W, 105, 128, 72);	
+			drawSprite( I, 106, 148, 72);
+			drawSprite( N, 107, 156, 72);
+		}	
+		if (sec2 == 36){
+			clearSprite();
+			state = 0;
+		} 	
 	}
 	else if (state == 3 ) { //car explosion
 		drawSprite(XPLODE,0, xuser, 140); //prints explosion sprite
@@ -514,21 +538,60 @@ void game(void) {
 		}
 	}
 	else if (state == 4) { //user completes game		
-		drawSprite( Y, 101, 60, 72);
-		drawSprite( O, 103, 80, 72);
-		drawSprite( U, 104, 96, 72);
-		drawSprite( W, 105, 128, 72);	
-		drawSprite( I, 106, 148, 72);
-		drawSprite( N, 107, 156, 72);
-
-		if (sec4 == 4) { //returns to the main menu
-			sec4 = 0;
+		drawSprite(XPLODE,0, xuser, 140); //prints explosion sprite
+		if (sec4 == 2) { //prints 'you lose'
+			drawSprite( Y, 2, 96, 72);			
+			drawSprite( O, 3, 112, 72);
+			drawSprite( U, 4, 128, 72);
+			drawSprite( L, 5, 88, 90);
+			drawSprite( O, 6, 104, 90);
+			drawSprite( S, 7, 120, 90);
+			drawSprite( E, 8, 136, 90);
+		}
+		if (sec4 == 4) {
 			clearSprite();
-			state = 0;
+			state = 6;
+			count =0;
 		}
 	}
 	else if (state == 5)	{ //state for credit page
 		drawCredits();
+	}
+	else if (state == 6) {
+		drawSprite( R, 100, 88, 96);
+		drawSprite( E, 101, 104, 96);
+		drawSprite( T, 102, 120, 96);
+		drawSprite( R, 103, 136, 96); 
+		drawSprite( Y, 104, 152, 96);
+
+		drawSprite( M, 105, 96, 130);
+		drawSprite( E, 106, 112, 130);
+		drawSprite( N, 107, 128, 130);
+		drawSprite( U, 108, 144, 130);
+
+		if(select2 == 0)	{ //selects retry
+			drawSprite( ARROW, 112, 50, 96);
+		}
+
+		else if(select2 == 1)	{ //selects menu
+			drawSprite( ARROW, 112, 50, 130);
+		}
+
+		if(blinker2%2)	{ //make the start and credit blink
+			if(select2 == 0)	{
+				drawSprite( R, 100, 240, 160);
+				drawSprite( E, 101, 240, 160);
+				drawSprite( T, 102, 240, 160);
+				drawSprite( R, 103, 240, 160);
+				drawSprite( Y, 104, 240, 160);
+			}
+			else if(select2 == 1)	{
+				drawSprite( M, 105, 240, 160);
+				drawSprite( E, 106, 240, 160); 
+				drawSprite( N, 107, 240, 160);
+				drawSprite( U, 108, 240, 160);
+			}
+		}
 	} 	
 } 
 

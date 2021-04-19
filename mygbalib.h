@@ -6,6 +6,9 @@ extern int xuser;
 // Updated upstream
 extern int select;
 extern int blinker; //delay for buttons in main menu and credits
+extern int select2;
+extern int blinker2;
+extern int count1;
 
 // Stashed changes
 void checkbutton(void)
@@ -15,7 +18,7 @@ void checkbutton(void)
     
     if ((buttons & KEY_A) == KEY_A)
     {
-     	if (state == 0) {
+     	if (state == 0 && count1 > 15) {
              if (select == 0)   {
                  clearSprite1();
                  state = 1;
@@ -29,6 +32,16 @@ void checkbutton(void)
             clearSprite1();
             state = 0;
         }
+        else if (state == 6) {
+            if (select2 == 0) {
+                clearSprite1();
+                state = 2;
+            }
+            else if (select2 == 1) {
+                clearSprite1();
+                state = 0;
+            }
+        }
     }
     if ((buttons & KEY_B) == KEY_B)
     {
@@ -40,7 +53,7 @@ void checkbutton(void)
     }
     if ((buttons & KEY_START) == KEY_START)
     {
-     	if (state == 0) {
+     	if (state == 0 && count1 > 15) {
              if (select == 0)   {
                  clearSprite1();
                  state = 1;
@@ -56,6 +69,17 @@ void checkbutton(void)
             state = 0;
             blinker = 0;
         }
+     	if (state == 6) {
+             if (select2 == 0)   {
+                 clearSprite1();
+                 state = 2;
+             }
+             else if (select2 == 1 && blinker2 > 1)   {
+                 clearSprite1();
+                 state = 0;
+                 blinker2 = 0;
+             }
+        }       
     }
     if ((buttons & KEY_RIGHT) == KEY_RIGHT)
     {
@@ -71,17 +95,27 @@ void checkbutton(void)
     }
     if ((buttons & KEY_UP) == KEY_UP)
     {
-       if(state == 0)   {
+       if(state == 0 && count1 > 15)   {
            if(select == 1)  {
                select = 0;
+           }
+       }
+       if(state == 6)   {
+           if(select2 == 1)  {
+               select2 = 0;
            }
        }
     }
     if ((buttons & KEY_DOWN) == KEY_DOWN)
     {
-       if(state == 0)   {
+       if(state == 0 && count1 > 15)   {
            if(select == 0)  {
                select = 1;
+           }
+       }
+       if(state == 6)   {
+           if(select2 == 0)  {
+               select2 = 1;
            }
        }
     }
