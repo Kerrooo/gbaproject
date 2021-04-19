@@ -9,6 +9,7 @@ extern int blinker; //delay for buttons in main menu and credits
 extern int select2;
 extern int blinker2;
 extern int count1;
+extern int cheatcode;
 
 // Stashed changes
 void checkbutton(void)
@@ -16,6 +17,10 @@ void checkbutton(void)
 	// Gift function to show you how a function that can be called upon button interrupt to detect which button was pressed and run a specific function for each button could look like. You would have to define each buttonA/buttonB/... function yourself.
     u16 buttons = INPUT;
     
+	if (cheatcode >= 6) {
+		cheatcode =5;
+	}
+
     if ((buttons & KEY_A) == KEY_A)
     {
      	if (state == 0 && count1 > 15) {
@@ -45,7 +50,11 @@ void checkbutton(void)
     }
     if ((buttons & KEY_B) == KEY_B)
     {
-     
+		if (state == 0) {
+			if (cheatcode == 4) {
+				cheatcode = 5;
+			}
+		} 
     }
     if ((buttons & KEY_SELECT) == KEY_SELECT)
     {
@@ -83,13 +92,29 @@ void checkbutton(void)
     }
     if ((buttons & KEY_RIGHT) == KEY_RIGHT)
     {
-      		if (xuser < 144) {
+		if (state == 0) {
+			if (cheatcode == 1) {
+				cheatcode = 2;
+			} 
+			if (cheatcode == 3) {
+				cheatcode = 4;
+			}
+		}
+      if (xuser < 144) {
 			xuser++;
 		}
     }
     if ((buttons & KEY_LEFT) == KEY_LEFT)
     {
-       if (xuser > 80) {
+		if (state == 0) {
+			if (cheatcode == 0) {
+				cheatcode = 1;
+			} 
+			if (cheatcode == 2) {
+				cheatcode = 3;
+			}
+		}
+      if (xuser > 80) {
 			xuser--;
 		}
     }
@@ -123,7 +148,7 @@ void checkbutton(void)
 
 void fillPalette(void)
 {
-    int     i;
+    int i;
 
 	// Fill the palette in GBA memory
     for (i = 0; i < NCOLS; i++)
@@ -161,4 +186,5 @@ void clearSprite1(void) {
        drawSprite(0, i, 240, 160);
 	}
 }
+
 

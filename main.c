@@ -22,6 +22,7 @@ int road_y,beach_y,ocean_y,palm_y1,palm_y2,finish_y = 0; //pointer to store the 
 int road_y2,bridgeleft_y,bridgeright_y,lavaleft_y,lavaright_y,finish_y2 = 0;
 int select = 0, blinker = 0; // menu selection and visual cue
 int select2 = 0, blinker2 = 0;
+int cheatcode;
 
 void resettimer(void) {    // put in bigcount, checks in every sate // also sets initial state of cars need to change both here and top
 	if (state != 0) {
@@ -277,11 +278,26 @@ void clearSprite(void) { //clear all sprites on the screen
 void drawMenu(void)	{ //function for menu
 	//prints the title of the game and the menu titles
 	drawSprite( XPLODE, 113, 70, 30);
+	
+	if (cheatcode == 5) {
+	drawSprite( V, 114, 240, 160);
+	drawSprite( R, 115, 240, 160);
+	drawSprite( O, 116, 240, 160);
+	drawSprite( O, 117, 240, 160);
+	drawSprite( M, 118, 240, 160);
+	drawSprite( M, 120, 86, 36);
+	drawSprite( E, 121, 104, 36);
+	drawSprite( THREE, 122, 120, 36);
+	drawSprite( TWO, 123, 136, 36);
+	drawSprite( FOUR, 124, 152, 36);
+	drawSprite( ONE, 125, 170, 36);
+	} else {
 	drawSprite( V, 114, 86, 36);
 	drawSprite( R, 115, 104, 36);
 	drawSprite( O, 116, 120, 36);
 	drawSprite( O, 117, 136, 36);
 	drawSprite( M, 118, 152, 36);
+	}
 		
 	drawSprite( S, 100, 88, 96);
 	drawSprite( T, 101, 104, 96);
@@ -645,6 +661,7 @@ int main(void)
 
 	return 0;
 }
+
 
 
 
